@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A little question 💚</title>
+<style>
+  :root{
+    --bg1:#a8e6a1; --bg2:#4caf6e; --card:#ffffffd9; --ink:#1f4d2e; --yes:#2e9e5b; --no:#e86a6a;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --bg1:#2f7a49; --bg2:#14452a; --card:#0f2b1bd9; --ink:#dff7e5; }
+  }
+  :root[data-theme="dark"]{ --bg1:#2f7a49; --bg2:#14452a; --card:#0f2b1bd9; --ink:#dff7e5; }
+  html,body{height:100%;margin:0}
+  body{
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;
+    color:var(--ink); display:flex; align-items:center; justify-content:center; padding:16px; overflow-x:hidden;
+  }
+  .card{
+    background:var(--card); border-radius:28px; padding:28px 22px; width:100%; max-width:420px;
+    text-align:center; box-shadow:0 12px 40px #0003; backdrop-filter:blur(6px);
+  }
+  h1{font-size:1.6rem;margin:12px 0 6px;line-height:1.25}
+  p{margin:0 0 16px;font-size:1.05rem;min-height:1.4em}
+  #cat{width:190px;height:170px;margin:0 auto;display:block;animation:float 3s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-8px)}}
+  .btns{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;min-height:64px}
+  button{
+    font:inherit;font-weight:700;font-size:1.1rem;color:#fff;border:0;border-radius:999px;
+    padding:12px 30px;cursor:pointer;transition:transform .15s;
+  }
+  button:hover{transform:scale(1.08)}
+  #yes{background:var(--yes)}
+  #no{background:var(--no)}
+  .hearts span{position:fixed;top:100%;font-size:26px;animation:rise 4s linear forwards;pointer-events:none}
+  @keyframes rise{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+  .tear{animation:drip 1.2s ease-in infinite}
+  @keyframes drip{0%{transform:translateY(0);opacity:1}100%{transform:translateY(26px);opacity:0}}
+</style>
+</head>
+<body>
+<div class="card">
+  <svg id="cat" viewBox="0 0 200 180" aria-label="cat"></svg>
+  <h1 id="title">Huy Dharyl, 💚</h1>
+  <p id="text">pwede ta mag date?</p>
+  <div class="btns" id="btns">
+    <button id="yes">Yes 💚</button>
+    <button id="no">No</button>
+  </div>
+</div>
+<div class="hearts" id="hearts"></div>
+
+<script>
+ 
+  function cat(mood){
+    var fur="#f4a95a", dark="#7a4a1d", pink="#ff9fb2";
+    var eyes="", mouth="", extra="";
+    if(mood==="hopeful"){
+      eyes='<circle cx="75" cy="95" r="9" fill="#222"/><circle cx="125" cy="95" r="9" fill="#222"/><circle cx="78" cy="92" r="3" fill="#fff"/><circle cx="128" cy="92" r="3" fill="#fff"/>';
+      mouth='<path d="M88 118 Q100 128 112 118" stroke="#222" stroke-width="3" fill="none" stroke-linecap="round"/>';
+    } else if(mood==="begging"){
+      eyes='<ellipse cx="75" cy="96" rx="14" ry="16" fill="#222"/><ellipse cx="125" cy="96" rx="14" ry="16" fill="#222"/><circle cx="70" cy="90" r="6" fill="#fff"/><circle cx="120" cy="90" r="6" fill="#fff"/><circle cx="80" cy="102" r="3" fill="#fff"/><circle cx="130" cy="102" r="3" fill="#fff"/><path d="M58 76 L88 84" stroke="#222" stroke-width="3" stroke-linecap="round"/><path d="M142 76 L112 84" stroke="#222" stroke-width="3" stroke-linecap="round"/>';
+      mouth='<path d="M90 126 Q100 118 110 126" stroke="#222" stroke-width="3" fill="none" stroke-linecap="round"/>';
+      extra='<ellipse cx="62" cy="152" rx="13" ry="9" fill="'+fur+'" stroke="'+dark+'" stroke-width="2"/><ellipse cx="138" cy="152" rx="13" ry="9" fill="'+fur+'" stroke="'+dark+'" stroke-width="2"/>'
+           +'<ellipse cx="75" cy="112" rx="3" ry="6" fill="#7ec8ff" class="tear"/>';
+    } else if(mood==="crying"){
+      eyes='<path d="M62 98 Q75 88 88 98" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M112 98 Q125 88 138 98" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/>';
+      mouth='<path d="M86 132 Q100 114 114 132" stroke="#222" stroke-width="3" fill="none" stroke-linecap="round"/>';
+      extra='<path d="M70 102 Q66 125 70 140" stroke="#7ec8ff" stroke-width="7" fill="none" stroke-linecap="round" class="tear"/><path d="M130 102 Q134 125 130 140" stroke="#7ec8ff" stroke-width="7" fill="none" stroke-linecap="round" class="tear"/>'
+           +'<ellipse cx="72" cy="112" rx="4" ry="7" fill="#7ec8ff" class="tear"/><ellipse cx="128" cy="116" rx="4" ry="7" fill="#7ec8ff" class="tear" style="animation-delay:.5s"/>';
+    } else { // happy
+      eyes='<path d="M62 98 Q75 82 88 98" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M112 98 Q125 82 138 98" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/>';
+      mouth='<path d="M82 114 Q100 140 118 114 Z" fill="#c0392b" stroke="#222" stroke-width="3" stroke-linejoin="round"/>';
+      extra='<ellipse cx="58" cy="112" rx="10" ry="6" fill="'+pink+'" opacity=".7"/><ellipse cx="142" cy="112" rx="10" ry="6" fill="'+pink+'" opacity=".7"/>'
+           +'<text x="150" y="50" font-size="26">💚</text><text x="28" y="60" font-size="20">💚</text>';
+    }
+    return '<polygon points="42,70 50,20 88,48" fill="'+fur+'" stroke="'+dark+'" stroke-width="3" stroke-linejoin="round"/>'
+      +'<polygon points="158,70 150,20 112,48" fill="'+fur+'" stroke="'+dark+'" stroke-width="3" stroke-linejoin="round"/>'
+      +'<polygon points="52,60 56,34 74,50" fill="'+pink+'"/><polygon points="148,60 144,34 126,50" fill="'+pink+'"/>'
+      +'<ellipse cx="100" cy="100" rx="64" ry="56" fill="'+fur+'" stroke="'+dark+'" stroke-width="3"/>'
+      +eyes+'<polygon points="94,108 106,108 100,115" fill="'+pink+'"/>'+mouth
+      +'<g stroke="'+dark+'" stroke-width="2" stroke-linecap="round"><path d="M40 108 L68 112"/><path d="M40 120 L68 118"/><path d="M160 108 L132 112"/><path d="M160 120 L132 118"/></g>'
+      +extra;
+  }
+
+  var stage=0;
+  var svg=document.getElementById("cat");
+  var title=document.getElementById("title");
+  var text=document.getElementById("text");
+  var btns=document.getElementById("btns");
+
+  function show(mood,t,p){ svg.innerHTML=cat(mood); title.textContent=t; text.textContent=p; }
+  show("hopeful","Huy Dharyl 💚","Pwede ta mag date?");
+
+  function hearts(){
+    var box=document.getElementById("hearts");
+    for(var i=0;i<30;i++){
+      (function(i){
+        setTimeout(function(){
+          var s=document.createElement("span");
+          s.textContent=["💚","💖","✨","🌿"][i%4];
+          s.style.left=Math.random()*100+"vw";
+          s.style.animationDuration=(3+Math.random()*2)+"s";
+          box.appendChild(s);
+          setTimeout(function(){s.remove()},5500);
+        },i*120);
+      })(i);
+    }
+  }
+
+  function yes(){
+    show("happy","YAYYY! 🥰","Naa raman diay na Thankyou Love, Iloveyou so much Dharyl Claire 💚");
+    btns.innerHTML="";
+    hearts();
+  }
+
+  document.getElementById("yes").addEventListener("click",yes);
+
+  document.getElementById("no").addEventListener("click",function(){
+    stage++;
+    if(stage===1){
+      show("begging","Sige na Pleaseee? 🥺","Di ka ma luoy aning nawnga?");
+    } else {
+      show("crying","Dili gyud ka? sumbong tikang mama 😭","Wala nakay choice pindota nlng ng yes gud… 💚");
+      btns.innerHTML='<button id="yes2">Yes 💚</button>';
+      document.getElementById("yes2").addEventListener("click",yes);
+    }
+  });
+</script>
+</body>
+</html>
